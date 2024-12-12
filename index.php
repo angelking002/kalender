@@ -1,7 +1,7 @@
 <?php
 // Array mit den Inhalten für jedes Türchen
 $contents = array(
-    1 => 'images/1.jpg',
+    1 => 'images/3.jpg',
     2 => '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/0aZCn2K7hls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
     3 => 'images/3.jpg',
     4 => 'images/4.jpg',
