@@ -1,89 +1,111 @@
-/* Grundlegendes Layout für den Kalender */
+/* Allgemeine Stile */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: white;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
 }
 
-/* Kalender Container */
+.calendar-wrapper {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+    border: 5px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 .calendar {
     position: relative;
-    width: 600px;
-    height: 400px;
-    background-size: cover;
-    background-position: center;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 10px;
-    padding: 20px;
+    width: 100%;
+    height: 100%;
 }
 
-/* Türchen */
-.door {
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.6);
-    border: 2px solid black;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.door:hover {
-    transform: scale(1.05);
-}
-
-/* Türchen Nummer */
-.door-number {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Türchen Inhalt (versteckt) */
-.content {
+.background-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid white;
-    border-radius: 10px;
-    overflow: hidden;
+    object-fit: cover;
+    z-index: 1;
 }
 
-/* Für Videos */
-.content iframe {
-    width: 100%;
-    height: 100%;
+.door {
+    position: absolute;
+    width: calc(800px / 6 - 10px); /* Türchenbreite */
+    height: calc(600px / 4 - 10px); /* Türchenhöhe */
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid black;
+    box-sizing: border-box;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.3s ease;
 }
 
-/* Wenn Türchen geöffnet ist (weiße Kontur) */
+.door[data-number="1"] { top: 0; left: 0; }
+.door[data-number="2"] { top: 0; left: calc(800px / 6 * 1); }
+.door[data-number="3"] { top: 0; left: calc(800px / 6 * 2); }
+.door[data-number="4"] { top: 0; left: calc(800px / 6 * 3); }
+.door[data-number="5"] { top: 0; left: calc(800px / 6 * 4); }
+.door[data-number="6"] { top: 0; left: calc(800px / 6 * 5); }
+.door[data-number="7"] { top: calc(600px / 4 * 1); left: 0; }
+.door[data-number="8"] { top: calc(600px / 4 * 1); left: calc(800px / 6 * 1); }
+.door[data-number="9"] { top: calc(600px / 4 * 1); left: calc(800px / 6 * 2); }
+.door[data-number="10"] { top: calc(600px / 4 * 1); left: calc(800px / 6 * 3); }
+.door[data-number="11"] { top: calc(600px / 4 * 1); left: calc(800px / 6 * 4); }
+.door[data-number="12"] { top: calc(600px / 4 * 1); left: calc(800px / 6 * 5); }
+.door[data-number="13"] { top: calc(600px / 4 * 2); left: 0; }
+.door[data-number="14"] { top: calc(600px / 4 * 2); left: calc(800px / 6 * 1); }
+.door[data-number="15"] { top: calc(600px / 4 * 2); left: calc(800px / 6 * 2); }
+.door[data-number="16"] { top: calc(600px / 4 * 2); left: calc(800px / 6 * 3); }
+.door[data-number="17"] { top: calc(600px / 4 * 2); left: calc(800px / 6 * 4); }
+.door[data-number="18"] { top: calc(600px / 4 * 2); left: calc(800px / 6 * 5); }
+.door[data-number="19"] { top: calc(600px / 4 * 3); left: 0; }
+.door[data-number="20"] { top: calc(600px / 4 * 3); left: calc(800px / 6 * 1); }
+.door[data-number="21"] { top: calc(600px / 4 * 3); left: calc(800px / 6 * 2); }
+.door[data-number="22"] { top: calc(600px / 4 * 3); left: calc(800px / 6 * 3); }
+.door[data-number="23"] { top: calc(600px / 4 * 3); left: calc(800px / 6 * 4); }
+.door[data-number="24"] { top: calc(600px / 4 * 3); left: calc(800px / 6 * 5); }
+
 .door.open {
+    transform: rotateY(180deg);
     border-color: white;
 }
 
-/* Übergänge für das Aufschwingen der Türchen */
-@keyframes swing {
-    0% {
-        transform: rotateY(0deg);
-    }
-    50% {
-        transform: rotateY(-15deg);
-    }
-    100% {
-        transform: rotateY(0deg);
-    }
+/* Modal-Stile */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal img, .modal video {
+    width: 100%;
+    height: auto;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
 }
